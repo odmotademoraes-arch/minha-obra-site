@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx vite *)",
+      "Bash(npx playwright *)",
+      "Bash(mkdir -p /tmp/screenshots)",
+      "Bash(node -e ' *)",
+      "Bash(npm install *)",
+      "Bash(node --require /tmp/pw/node_modules/playwright/index.js -e ' *)",
+      "PowerShell(gh auth status 2>&1)",
+      "PowerShell(gh api user --jq '.login' 2>&1)",
+      "PowerShell(gh auth login --hostname github.com --git-protocol https --web 2>&1)",
+      "Bash(gh auth *)"
+    ]
+  }
+}
