@@ -95,7 +95,7 @@ export function Materiais() {
                     </div>
                   </div>
                   {baixo && <p className="text-xs text-red-500 mt-2">Estoque baixo (mín: {m.estoque_minimo} {m.unidade})</p>}
-                  {m.custo_unitario && <p className="text-xs text-gray-400 mt-1">Custo unit.: R$ {m.custo_unitario.toFixed(2)}</p>}
+                  {m.preco_unitario && <p className="text-xs text-gray-400 mt-1">Custo unit.: R$ {Number(m.preco_unitario).toFixed(2)}</p>}
                 </Card>
               )
             })}

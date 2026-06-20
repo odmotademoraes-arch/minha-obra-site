@@ -451,10 +451,10 @@ function setupIpcHandlers() {
 
   ipcMain.handle('materiais:create', (_e, data) => {
     const r = db.prepare(`
-      INSERT INTO materiais_estoque (obra_id, nome, codigo, unidade, fornecedor_padrao, estoque_minimo, preco_unitario)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO materiais_estoque (obra_id, nome, codigo, unidade, fornecedor_padrao, estoque_atual, estoque_minimo, preco_unitario)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `).run(data.obra_id, data.nome, data.codigo, data.unidade || 'unidade',
-      data.fornecedor_padrao, data.estoque_minimo || 0, data.preco_unitario)
+      data.fornecedor_padrao, data.estoque_atual || 0, data.estoque_minimo || 0, data.preco_unitario)
     return { id: Number(r.lastInsertRowid) }
   })
 
