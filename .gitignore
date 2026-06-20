@@ -26,5 +26,8 @@ Thumbs.db
 *.tmp
 *.cache
 
+# Pasta site (projeto separado com git próprio)
+site/
+
 # VSCode
 .vscode/settings.json
