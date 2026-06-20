@@ -1,4 +1,4 @@
-name: Deploy Admin Panel → GitHub Pages
+name: Deploy Admin Panel - GitHub Pages
 
 on:
   push:
