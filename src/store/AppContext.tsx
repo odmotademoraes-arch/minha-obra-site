@@ -2,7 +2,10 @@ import React, { createContext, useContext, useState, useCallback, useEffect } fr
 
 declare global {
   interface Window {
-    api: { invoke: (channel: string, ...args: any[]) => Promise<any> }
+    api: {
+      invoke: (channel: string, ...args: any[]) => Promise<any>
+      openExternal?: (url: string) => void
+    }
   }
 }
 

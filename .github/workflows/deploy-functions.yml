@@ -27,3 +27,6 @@ jobs:
           supabase functions deploy notificar-cliente-ativo --project-ref nylhawkjfbbeoqbmczmm
           supabase functions deploy enviar-convite          --project-ref nylhawkjfbbeoqbmczmm
           supabase functions deploy notificar-dono-aceite   --project-ref nylhawkjfbbeoqbmczmm
+          supabase functions deploy analisar-ia             --project-ref nylhawkjfbbeoqbmczmm
+          supabase functions deploy stripe-webhook          --project-ref nylhawkjfbbeoqbmczmm
+          supabase functions deploy criar-checkout          --project-ref nylhawkjfbbeoqbmczmm

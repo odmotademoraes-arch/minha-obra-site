@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Zap, Crown, CheckCircle, XCircle, RefreshCw, Users } from 'lucide-react'
+import { Zap, Crown, CheckCircle, XCircle, RefreshCw, Users, Moon, Sun, Download } from 'lucide-react'
 import { useApp } from '../store/AppContext'
 import { PageHeader } from '../components/layout/Layout'
 import { Button } from '../components/ui/Button'
@@ -188,19 +188,93 @@ function SistemaSection() {
     } finally { setLoading(false) }
   }
 
+  // Dark mode toggle
+  const [temaDark, setTemaDark] = useState(localStorage.getItem('tema') === 'escuro')
+
+  function toggleTema() {
+    const novoTema = temaDark ? 'claro' : 'escuro'
+    localStorage.setItem('tema', novoTema)
+    document.documentElement.classList.toggle('dark', novoTema === 'escuro')
+    setTemaDark(novoTema === 'escuro')
+  }
+
+  // Backup Supabase
+  const [backupLoading, setBackupLoading] = useState(false)
+  async function handleBackupSupabase() {
+    setBackupLoading(true)
+    try {
+      const { supabase } = await import('../lib/supabase')
+      const uid = localStorage.getItem('minha-obra-suid')
+      if (!uid) { alert('Faça login com sua conta cloud para usar o backup.'); return }
+
+      const tabelas = ['obras', 'funcionarios', 'despesas', 'rdos', 'epis', 'exames_medicos', 'materiais_estoque']
+      const backup: Record<string, any> = { exportado_em: new Date().toISOString(), versao: '1.0.0' }
+
+      for (const t of tabelas) {
+        const { data } = await supabase.from(t).select('*').eq('usuario_id', uid)
+        backup[t] = data || []
+      }
+
+      const json = JSON.stringify(backup, null, 2)
+      const blob = new Blob([json], { type: 'application/json' })
+      const url  = URL.createObjectURL(blob)
+      const a    = document.createElement('a')
+      a.href     = url
+      a.download = `backup_minha_obra_${new Date().toISOString().split('T')[0]}.json`
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch (err) {
+      alert('Erro ao exportar backup. Verifique sua conexão.')
+    } finally {
+      setBackupLoading(false)
+    }
+  }
+
   return (
-    <Card>
-      <h3 className="font-semibold text-[#1A1A2E] mb-4">Sistema</h3>
-      <div className="space-y-3 text-sm mb-6">
-        {info && Object.entries(info).map(([k, v]) => (
-          <div key={k} className="flex justify-between border-b border-gray-50 pb-2">
-            <span className="text-gray-500">{k}</span>
-            <span className="font-medium">{String(v)}</span>
+    <div className="space-y-4">
+      {/* Aparência */}
+      <Card>
+        <h3 className="font-semibold text-[#1A1A2E] dark:text-white mb-4">Aparência</h3>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Tema escuro</p>
+            <p className="text-xs text-gray-400 mt-0.5">Reduz o brilho da tela em ambientes com pouca luz</p>
           </div>
-        ))}
-      </div>
-      <Button variant="outline" onClick={handleBackup} loading={loading}>Fazer Backup do Banco</Button>
-    </Card>
+          <button
+            onClick={toggleTema}
+            className={`relative w-12 h-6 rounded-full transition-colors ${temaDark ? 'bg-azul' : 'bg-gray-200'}`}
+          >
+            <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform flex items-center justify-center ${temaDark ? 'translate-x-6' : ''}`}>
+              {temaDark ? <Moon className="w-3 h-3 text-azul" /> : <Sun className="w-3 h-3 text-gray-400" />}
+            </span>
+          </button>
+        </div>
+      </Card>
+
+      {/* Sistema */}
+      <Card>
+        <h3 className="font-semibold text-[#1A1A2E] dark:text-white mb-4">Sistema</h3>
+        <div className="space-y-3 text-sm mb-6">
+          {info && Object.entries(info).map(([k, v]) => (
+            <div key={k} className="flex justify-between border-b border-gray-50 dark:border-gray-700 pb-2">
+              <span className="text-gray-500">{k}</span>
+              <span className="font-medium dark:text-white">{String(v)}</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <Button variant="outline" onClick={handleBackup} loading={loading}>Fazer Backup Local</Button>
+          <Button
+            variant="outline"
+            onClick={handleBackupSupabase}
+            loading={backupLoading}
+            className="flex items-center gap-2"
+          >
+            <Download size={14} /> Exportar Backup Cloud (JSON)
+          </Button>
+        </div>
+      </Card>
+    </div>
   )
 }
 
