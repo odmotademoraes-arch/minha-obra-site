@@ -1,0 +1,30 @@
+# Dependências
+node_modules/
+admin-panel/node_modules/
+
+# Builds
+dist/
+release/
+admin-panel/dist/
+out/
+*.exe
+*.dmg
+*.AppImage
+*.deb
+*.snap
+
+# Env — NUNCA commitar
+.env
+.env.local
+admin-panel/.env
+admin-panel/.env.local
+
+# Logs e temporários
+*.log
+.DS_Store
+Thumbs.db
+*.tmp
+*.cache
+
+# VSCode
+.vscode/settings.json

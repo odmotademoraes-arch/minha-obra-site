@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background-color: #F8F9FA;
+  color: #1A1A2E;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #E85D04; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #C94D00; }
+
+.scrollable { overflow-y: auto; }
+
+.status-planejamento { background: #DBEAFE; color: #1D4ED8; }
+.status-em_andamento { background: #D1FAE5; color: #065F46; }
+.status-pausada { background: #FEF3C7; color: #92400E; }
+.status-concluida { background: #F3F4F6; color: #374151; }
+
+.prioridade-critica { background: #FEE2E2; color: #991B1B; }
+.prioridade-alta { background: #FFEDD5; color: #9A3412; }
+.prioridade-media { background: #FEF9C3; color: #854D0E; }
+.prioridade-info { background: #DBEAFE; color: #1D4ED8; }
